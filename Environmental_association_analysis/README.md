@@ -11,9 +11,9 @@ We will use three different Ecological Association methods (EA) to detect SNPs p
 
 **********************
 
-# Preparing input files for environmental association analysis
+## Preparing input files for environmental association analysis
 
-## Extract environmental variables from Bioclimatic raster files
+#### Extract environmental variables from Bioclimatic raster files
 
 Bioclimatic variables can be downloaded from the <a href="https://www.worldclim.org/data/bioclim.html" title="WorldClim database" >WorldClim database</a>. We have downloaded raster files at a resolution of 30 s degrees for all the 19 variables. We used R to extract climatic data for each samling site of the Queensland fruit fly from these raster files:
 
@@ -91,7 +91,7 @@ pairs.panels(df, scale=T)  # by looking at the correlation coefficients, we reom
 ```
 
 
-## Create population allele frequency file from vcf file
+#### Create population allele frequency file from vcf file
 
 We will use R to read vcf, convert it to a genotype matrix (individuals in rows and SNPs in columns) and use the genotype matrix to create population allele frequencies:
 
