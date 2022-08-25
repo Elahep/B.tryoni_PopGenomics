@@ -119,6 +119,38 @@ capture.output(allsnps, file = "LFMM_adaptive_SNPs.txt")    #save the list of ou
 #be considered as the final LFMM candidate SNP list based on all 6 env variables.
 ```
 
+Using the R package 'ggplot2' we can create Manhattan plot to show the distribution of candidate SNPs for each bioclimatic variable:
+
+```
+library(ggplot2)
+library(dplyr)
+
+scaffolds <- read.table("LFMM_allSNPs_CHRinfo6526.txt", header = TRUE) #import chromosome and snp position information for the 6526 SNPs
+
+#we will plot candidates under bio_3, by using the same code you can plot SNPs for other bioclim variables too.
+pvals_df <- as.data.frame(pvalues)
+pval_bio_3 <- as.data.frame(-log10(pvals_df$bio_3))
+pval_bio_3 <- cbind(pval_bio_3,scaffolds)
+pval_bio_3 <- rename(pval_bio_3, log10pval=`-log10(pvals_df$bio_3)`)
+outliers_bio_3 <- read.table("bio_3_outliers.txt")
+outliers_bio_3_vec <- as.vector(outliers_bio_3$V2)
+
+selected_snps3 <- pval_bio_3[pval_bio_3$SNP %in% outliers_bio_3_vec, ] #selecting candidates SNPs under bio_3
+
+ggplot(pval_bio_3, aes(x=MRK, y = abs(log10pval), color = CHR)) + ##abs <- absolute value of plog
+  geom_point(show.legend = FALSE, alpha = 0.8, size = 3) +
+  scale_color_gradient(low="#D19C1D", high="#472C1B") +
+  geom_point(selected_snps3, mapping = aes(x=MRK, y = abs(log10pval)), color = "#EB4511", size = 4) +
+  theme_minimal() +
+  ggtitle("bio_3")
+```
+
+Here is the Manhattan plot:
+
+![bio3](https://user-images.githubusercontent.com/13001264/186780672-7fd7fee2-4d11-4f98-8dd7-fa5db4bef68e.png)
+
+
+
 #### References
 https://bookdown.org/hhwagner1/LandGenCourse_book/WE_11.html
 
