@@ -1,4 +1,4 @@
-## Detecting SNPs under selection using the LFMM analysis
+## Detecting SNPs under selection using latent factor mixed models (LFMM)
 
 
 LFMM tests for association between loci and environmental variables. LFMM can take into account the effect of population strcuture by introducing hidden latent factors in the model and identifying nonrandom associations between SNPs and environmental variables.
