@@ -15,7 +15,7 @@ We will use three different Ecological Association methods (EA) to detect SNPs p
 
 #### Extract environmental variables from Bioclimatic raster files
 
-Bioclimatic variables can be downloaded from the <a href="https://www.worldclim.org/data/bioclim.html" title="WorldClim database" >WorldClim database</a>. We have downloaded raster files at a resolution of 30 s degrees for all the 19 variables. We used R to extract climatic data for each samling site of the Queensland fruit fly from these raster files:
+Bioclimatic variables can be downloaded from the <a href="https://www.worldclim.org/data/bioclim.html" title="WorldClim database" >WorldClim database</a>. We have downloaded raster files at a resolution of 30 s degrees for all the 19 variables. We used R to extract climatic data for each sampling site of the Queensland fruit fly from these raster files:
 
 ```
 module load R-Geo/4.1.0-gimkl-2020a
