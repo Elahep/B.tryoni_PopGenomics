@@ -84,27 +84,27 @@ calibratedpvalues <- as.data.frame(pv$calibrated.pvalue)
 
 
 qv_bio_3 <- as.data.frame(qvalue(calibratedpvalues$bio_3)$qvalues)
-candidtaes_bio_3 <- scaffolds[which(qv_bio_3 < 0.1)]
+candidtaes_bio_3 <- scaffolds[which(qv_bio_3 < 0.05)]
 candidtaes_bio_3
 
 qv_bio_5 <- as.data.frame(qvalue(calibratedpvalues$bio_5)$qvalues)
-candidtaes_bio_5 <- scaffolds[which(qv_bio_5 < 0.1)]
+candidtaes_bio_5 <- scaffolds[which(qv_bio_5 < 0.05)]
 candidtaes_bio_5
 
 qv_bio_8 <- as.data.frame(qvalue(calibratedpvalues$bio_8)$qvalues)
-candidtaes_bio_8 <- scaffolds[which(qv_bio_8 < 0.1)]
+candidtaes_bio_8 <- scaffolds[which(qv_bio_8 < 0.05)]
 candidtaes_bio_8
 
 qv_bio_9 <- as.data.frame(qvalue(calibratedpvalues$bio_9)$qvalues)
-candidtaes_bio_9 <- scaffolds[which(qv_bio_9 < 0.1)]
+candidtaes_bio_9 <- scaffolds[which(qv_bio_9 < 0.05)]
 candidtaes_bio_9
 
 qv_bio_12 <- as.data.frame(qvalue(calibratedpvalues$bio_12)$qvalues)
-candidtaes_bio_12 <- scaffolds[which(qv_bio_12 < 0.1)]
+candidtaes_bio_12 <- scaffolds[which(qv_bio_12 < 0.05)]
 candidtaes_bio_12
 
 qv_bio_19 <- as.data.frame(qvalue(calibratedpvalues$bio_19)$qvalues)
-candidtaes_bio_19 <- scaffolds[which(qv_bio_19 < 0.1)]
+candidtaes_bio_19 <- scaffolds[which(qv_bio_19 < 0.05)]
 candidtaes_bio_19
 
 
@@ -114,7 +114,7 @@ allsnps = list(bio_3 = candidtaes_bio_3, bio_5 = candidtaes_bio_5,
 
 capture.output(allsnps, file = "LFMM_adaptive_SNPs.txt")    #save the list of outlier snps
 
-#Using K=3, the default GIF correction, and an FDR threshold of 0.10, we detect 42 candidate SNPs 
+#Using K=3, the default GIF correction, and an FDR threshold of 0.05, we detect 42 candidate SNPs 
 #under selection in response to 6 bioclimatic variables. 33 of these SNPs are unique and will
 #be considered as the final LFMM candidate SNP list based on all 6 env variables.
 ```
