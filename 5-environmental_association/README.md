@@ -1,13 +1,3 @@
-We will use three different Ecological Association methods (EA) to detect SNPs potentially involeved in local adaptation of _B. tryoni_: 
-
-1- Redundancy Analysis (RDA)
-
-
-2- Latent Factor Mixed Models (LFMM)
-
-
-3- Gradient Forest (GF)
-
 
 **********************
 
