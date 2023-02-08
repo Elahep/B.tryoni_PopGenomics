@@ -155,7 +155,7 @@ We used DivMigrate in R to assess the directionality and magnitude of gene flow 
 library(diveRsity)
 library(corrplot)
 
-divMigrate(infile="./H2_bialSNP_MAF05_geno_LD50502_388_rename_reorder.gen", outfile="Gst_5000boot", stat="gst", para=TRUE, plot_network=TRUE)
+divMigrate(infile="./Qfly.geno", outfile="Gst_5000boot", stat="gst", para=TRUE, plot_network=TRUE)
 dev.off()
 
 ##before plotting the heatmap, I have manually edited the Gst output matrix of divMigrate, making sure the matrix is tab delimited and population names are correct.
