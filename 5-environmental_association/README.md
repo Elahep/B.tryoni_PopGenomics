@@ -83,7 +83,7 @@ pairs.panels(df, scale=T)  # by looking at the correlation coefficients, we reom
 ```
 
 
-### Create population allele frequency file from vcf file
+### Create population allele frequencies from vcf file
 
 We will use R to read vcf, convert it to a genotype matrix (individuals in rows and SNPs in columns) and use the genotype matrix to create population allele frequencies:
 
