@@ -1,7 +1,7 @@
 ## Preparing input files for environmental association analysis
 To determine the significance of predictor variables, including climatic and spatial variables, in explaining the alteration of allele frequency in the native and introduced ranges of the Queensland fruit fly, we conducted a gradient forest (GF) analysis. The GF analysis employed random forest machine learning algorithms to incrementally assess the combined impact of environmental variables on the variance of allele frequency. To do this, we first need to prepare input files including environmental variables for our sampling sites and population allele frequencies.
 
-For the gradient forest check instructions in Amy's GitHub at https://github.com/AlaMetTyr/Genomic-markers-of-invasiveness.
+For the gradient forest check instructions in Amy's GitHub at https://github.com/AlaMetTyr/Queensland-fruit-fly-gradient-forest-analysis
 
 ### Extract environmental variables from Bioclimatic raster files
 
