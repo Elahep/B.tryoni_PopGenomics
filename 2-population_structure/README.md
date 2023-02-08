@@ -149,3 +149,16 @@ plotQ(qlist=slist[2],imgtype = "pdf",
  plotQ(qlist=slist[1],imgtype = "pdf",
        height = 1.5, clustercol = c("#dd00ff","#51692d","#caf291","#3d87db","#ecbcab","#a63838","#56ba32","#0000FF","#f1c039","#f37d21"), dpi = 1200, exportpath = "./") 
 ```
+
+We used DivMigrate in R to assess the directionality and magnitude of gene flow between populations using Nei’s Gst (Nei, 1973) as a measure of population genetic differentiation. Here I have also provided the code to create the gene flow heatmap.
+```
+library(diveRsity)
+library(corrplot)
+
+divMigrate(infile="./H2_bialSNP_MAF05_geno_LD50502_388_rename_reorder.gen", outfile="Gst_5000boot", stat="gst", para=TRUE, plot_network=TRUE)
+dev.off()
+
+##before plotting the heatmap, I have manually edited the Gst output matrix of divMigrate, making sure the matrix is tab delimited and population names are correct.
+data <- as.matrix(read.table("divMigrate_Gst.txt"))
+corrplot(data, method="color", order = "alphabet", is.corr = FALSE)
+```
