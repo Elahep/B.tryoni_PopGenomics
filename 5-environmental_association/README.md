@@ -2,8 +2,10 @@
 **********************
 
 ## Preparing input files for environmental association analysis
+To determine the significance of predictor variables, including climatic and spatial variables, in explaining the alteration of allele frequency in the native and introduced ranges of the Queensland fruit fly, we conducted a gradient forest (GF) analysis. The GF analysis employed random forest machine learning algorithms to incrementally assess the combined impact of environmental variables on the variance of allele frequency. To do this, we first need to prepare input files including environmental variables for our sampling sites and population allele frequencies.
 
-#### Extract environmental variables from Bioclimatic raster files
+
+### Extract environmental variables from Bioclimatic raster files
 
 Bioclimatic variables can be downloaded from the <a href="https://www.worldclim.org/data/bioclim.html" title="WorldClim database" >WorldClim database</a>. We have downloaded raster files at a resolution of 30 s degrees for all the 19 variables. We used R to extract climatic data for each sampling site of the Queensland fruit fly from these raster files:
 
@@ -81,7 +83,7 @@ pairs.panels(df, scale=T)  # by looking at the correlation coefficients, we reom
 ```
 
 
-#### Create population allele frequency file from vcf file
+### Create population allele frequency file from vcf file
 
 We will use R to read vcf, convert it to a genotype matrix (individuals in rows and SNPs in columns) and use the genotype matrix to create population allele frequencies:
 
