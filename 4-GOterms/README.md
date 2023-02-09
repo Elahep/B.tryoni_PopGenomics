@@ -35,6 +35,7 @@ The resulting .bed file contains sequences at flanking 10 kb of candidate (or ou
 ![image](https://user-images.githubusercontent.com/13001264/217693489-964b35aa-6460-447c-9161-b2d80260b7b9.png)
 
 The output of the Table Browser tool contains information about the assembly ID used for extracting exons, the transcript ID and range (scaffold and coordinates) for each exon. We only need the transcript ID for each exon. I used simple bash scripts to extract only the lines that contain the transcript IDs and use notepad+ to manually edit the final file and remove any extra character/information from the list of transcript IDs.
+Using NCBI nucleotide database, we found gene and protein IDs associated with these transcript IDs.
 
 
 ## GO terms analysis
