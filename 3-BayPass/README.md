@@ -22,7 +22,7 @@ abline(h=1)
 ```
 
 ## Choosing candidate SNPs and creating Manhattan plots
-`BMSB__summary_contrast.out` contains posterior mean of the C2 contrast statistics (M_C2), standard deviation of C2 contrast statistics (SD_C2), calibrated estimator of C2 statistics (C2_std) and its corrected p value (log10(1/pval)). We will use this file to calculate false discovery rates (FDR 5%) in R and choose candidate SNPs. The procedure bellow was conducted for all three BayPass runs.
+`Qff_nativevsAlice_summary_contrast.out` contains posterior mean of the C2 contrast statistics (M_C2), standard deviation of C2 contrast statistics (SD_C2), calibrated estimator of C2 statistics (C2_std) and its corrected p value (log10(1/pval)). We will use this file to calculate false discovery rates (FDR 5%) in R and choose candidate SNPs. The procedure bellow was conducted for all three BayPass runs.
 ```
 library(qvalue)
 library(dplyr)
