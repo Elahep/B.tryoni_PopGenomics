@@ -55,7 +55,7 @@ selected_SNPs = Alice.C2[Alice.C2$qval < 0.05, ]
 write.table(selected_SNPs,"BayPassOutliers_nativevsAlice_5prctFDR.txt", sep = "\t")
 
 ##Manhattan plot
-scaffolds2 = read.table("../../Qff_chromosomes-chrNumbers.txt", header = TRUE) #Here I changed scaffold names to chromosome names
+scaffolds2 = read.table("../../Qff_chromosomes-chrNumbers.txt", header = TRUE) #Here I changed scaffold names to chromosome numbers (CHR 1-5 and number 6 for unplaced scaffolds)
 Alice.C2_2 <- cbind(Alice.C2, scaffolds2)
 
 ggplot(Alice.C2_2, aes(x=MRK, y = log10.1.pval., color = CHR)) + 
