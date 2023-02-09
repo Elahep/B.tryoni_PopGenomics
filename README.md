@@ -19,4 +19,4 @@ Contains script for running the C2-statistic analysis in BayPass
 Contains scripts for running Interproscan and topGO 
 
 ### 5-environmental_association
-Contains scripts for processing bioclimatic variables to be used in gradient forest analysis
+Contains scripts for processing bioclimatic variables + gradient forest analysis
