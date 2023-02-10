@@ -63,4 +63,14 @@ ggplot(Alice.C2_2, aes(x=MRK, y = log10.1.pval., color = CHR)) +
   scale_color_gradient(low="#D19C1D", high="#472C1B") +
   geom_point(selected_SNPs, mapping = aes(x=MRK, y = log10.1.pval.), color = "#EB4511", size = 2) +
   theme_classic()
-  ```
+  
+ ## we will also make a Venn diagram to check the common SNPs between the three comparisons
+library(ggvenn)
+ 
+Alice = read.table("./native vs Alice/Qff_BayPassOutliers_Alice_5prctFDR_103list.txt")
+Southern = read.table("./native vs expanded/Qff_BayPassOutliers_Expanded_5prctFDR_2SNPs_list.txt")
+Islands = read.table("./native vs Islands/Qff_BayPassOutliers_Islands_5prctFDR_17list.txt")
+
+x= list(Alice=Alice$V1, Southern=Southern$V1, Islands=Islands$V1)
+ggvenn(x, fill_color = c("#F8D210", "#593F1F", "#DEE3CA"), fill_alpha = 0.7, stroke_size = 0.2, set_name_size = 4, stroke_color = "black", show_percentage = FALSE)
+```
