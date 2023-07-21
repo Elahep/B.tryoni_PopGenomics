@@ -181,7 +181,7 @@ my.xvals <- x.validation(train.prop = 0.9,
                          make.figs = TRUE,
                          save.files = TRUE,
                          parallel = TRUE,
-						 n.nodes = ncpus)
+                         n.nodes = ncpus)
 
 stopCluster(cluster)
 
@@ -252,7 +252,7 @@ We now focused on the spatial model, by running it separately for 10,000 iterati
 
 ```
 library(conStruct)
-setwd("/nesi/nobackup/ga03488/Eli/sp_models")
+setwd("/nesi/nobackup/XXXX/Eli/sp_models")
 allele_freq <- as.matrix(read.table("./construct"))
 coords <- as.matrix(read.table("./Qff_coordinates_latlon.txt"))
 distances <- as.matrix(read.table("./distances.txt", header = TRUE))
