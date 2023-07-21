@@ -133,14 +133,14 @@ for(i in 1:nrow(pop.data.matrix)){
 }
 
 is.matrix(pop.data.matrix)
-write.table(pop.data.matrix, "indv_matrix.txt", sep = "\t")
+write.table(pop.data.matrix, "construct", sep = "\t")
 ```
 
 A matrix of pairwise geographic distances was created by calculating pairwise great-circle distance between sampling coordinates:
 
 ```
 # Reading matrix of coordinates for each individual (i.e., 301 rows of lat. and long. format)
-coords <- as.matrix(read.table("Qff.coord", header = FALSE)) 
+coords <- as.matrix(read.table("Qff_coordinates_latlon.txt", header = FALSE)) 
 
 # Calculate pairwise distances using rdist.earth
 distances <- rdist.earth(coords, miles = FALSE)
@@ -148,13 +148,175 @@ distances <- rdist.earth(coords, miles = FALSE)
 write.table(distances, file = "distances.txt", sep = "\t", quote = FALSE, row.names = FALSE)
 ```
 
+We then ran spatial and non-spatial models for K=1-6, comparing them using cross-validation:
+
+```
+library(conStruct)
+library(parallel)
+library(foreach)
+library(doParallel)
+
+setwd("/nesi/nobackup/XXXX/Eli/conStruct_2")
+allele_freq <- as.matrix(read.table("./construct"))
+coords <- as.matrix(read.table("./Qff_coordinates_latlon.txt"))
+distances <- as.matrix(read.table("./distances.txt", header = TRUE))
+
+ncpus <- as.numeric(Sys.getenv("SLURM_CPUS_PER_TASK"))
+
+cluster <- makeCluster(ncpus)
+
+registerDoParallel(cluster)
+
+# Running spatial vs non-spatial model comparison using a cross-validation analysis:
+
+my.xvals <- x.validation(train.prop = 0.9,
+                         n.reps = 3,
+                         K = 1:6,
+                         freqs = allele_freq,
+                         data.partitions = NULL,
+                         geoDist = distances,
+                         coords = coords,
+                         prefix = "Qf_test",
+                         n.iter = 5000,
+                         make.figs = TRUE,
+                         save.files = TRUE,
+                         parallel = TRUE,
+						 n.nodes = ncpus)
+
+stopCluster(cluster)
+
+## Visualization of results:
+
+sp.results <- as.matrix(
+                read.table("Qf_test_sp_xval_results.txt",
+                           header = TRUE,
+                           stringsAsFactors = FALSE)
+               )
+nsp.results <- as.matrix(
+                read.table("Qf_test_nsp_xval_results.txt",
+                           header = TRUE,
+                           stringsAsFactors = FALSE)
+               )
 
 
+write.table(sp.results, "./sp.results.txt", sep = "\t")
+write.table(nsp.results, "./nsp.results.txt", sep = "\t")
+
+## Plotting the output:
+
+# First, get the 95% confidence intervals for the spatial and nonspatial
+#  models over values of K (mean +/- 1.96 the standard error)
+
+sp.CIs <- apply(sp.results,1,function(x){mean(x) + c(-1.96,1.96) * sd(x)/length(x)})
+nsp.CIs <- apply(nsp.results,1,function(x){mean(x) + c(-1.96,1.96) * sd(x)/length(x)})
+
+# Then, plot cross-validation results for K=1:7 with 5 replicates
+pdf(file="./cross_validation_plots.pdf")
+par(mfrow=c(1,2))
+plot(rowMeans(sp.results),
+     pch=19,col="blue",
+     ylab="predictive accuracy",xlab="values of K",
+     ylim=range(sp.results,nsp.results),
+     main="cross-validation results")
+    points(rowMeans(nsp.results),col="green",pch=19)
+
+#   Finally, visualize results for the spatial model
+#   separately with its confidence interval bars.
+
+#   note that you could do the same with the spatial model, 
+#   but the confidence intervals don't really show up 
+#   because the differences between predictive accuracies
+#   across values of K are so large.
+
+plot(rowMeans(sp.results),
+     pch=19,col="blue",
+     ylab="predictive accuracy",xlab="values of K",
+     ylim=range(sp.CIs),
+     main="spatial cross-validation results")
+segments(x0 = 1:nrow(sp.results),
+         y0 = sp.CIs[1,],
+         x1 = 1:nrow(sp.results),
+         y1 = sp.CIs[2,],
+         col = "blue",lwd=2)
+
+dev.off()
+```
+
+This gave us the following plot, indicating that the spatial model is favored over the non-spatial model, so IBD is probably a feature of our data:
 
 
+![cross_validation_plots_page-0001](https://github.com/Elahep/B.tryoni_PopGenomics/assets/13001264/88d1b463-7be7-4003-ad56-45f652af7309)
 
 
+We now focused on the spatial model, by running it separately for 10,000 iterations to calculate layer contribution. We set a threshold criterion of 0.02 for the covariate contribution, selecting the k value that fell above this cutoff as the most suitable.
 
+```
+library(conStruct)
+setwd("/nesi/nobackup/ga03488/Eli/sp_models")
+allele_freq <- as.matrix(read.table("./construct"))
+coords <- as.matrix(read.table("./Qff_coordinates_latlon.txt"))
+distances <- as.matrix(read.table("./distances.txt", header = TRUE))
+
+# Running spatial model for K=1-6 and more iterations
+for (k in 1:6) {
+    sp_k <- conStruct(spatial = TRUE, 
+                      K = k, 
+                      freqs = allele_freq,
+                      geoDist = distances, 
+                      coords = coords,
+                      prefix = paste0("spK", k), 
+                      n.iter = 10000, 
+                      n.chains = 1, 
+                      make.figs = TRUE, 
+                      save.files = TRUE)
+}
+
+## Calculating layer contribution:
+
+# Loop through output files generated by conStruct 
+#   runs with K=1 through 6 and calculating the 
+#   layer contributions for each layer in each run  
+
+layer.contributions <- matrix(NA,nrow=6,ncol=6)
+
+# Load the conStruct.results.Robj and data.block.Robj
+#   files saved at the end of a conStruct run
+load("spK1_conStruct.results.Robj")
+load("spK1_data.block.Robj")
+
+# Calculate layer contributions
+layer.contributions[,1] <- c(calculate.layer.contribution(conStruct.results[[1]],data.block),rep(0,5)) #rep = (0,max_k-1)
+tmp <- conStruct.results[[1]]$MAP$admix.proportions
+
+for(i in 2:6){
+  # load the conStruct.results.Robj and data.block.Robj
+  #   files saved at the end of a conStruct run
+  load(sprintf("spK%d_conStruct.results.Robj",i))
+  load(sprintf("spK%d_data.block.Robj",i))
+  
+  # match layers up across runs to keep plotting colors consistent
+  # for the same layers in different runs
+  tmp.order <- match.layers.x.runs(tmp,conStruct.results[[1]]$MAP$admix.proportions)  
+  
+  # Calculate layer contributions
+  layer.contributions[,i] <- c(calculate.layer.contribution(conStruct.results=conStruct.results[[1]],
+                                                            data.block=data.block,
+                                                            layer.order=tmp.order),
+                               rep(0,6-i))
+  tmp <- conStruct.results[[1]]$MAP$admix.proportions[,tmp.order]
+}
+
+write.table(layer.contributions, "layer_contribution_sp.txt", sep = "\t")
+
+## Plotting layer contributions across values of k
+pdf(file = "layer_contribution_sp.pdf")
+barplot(layer.contributions,
+        col=c("orchid","goldenrod", "deeppink", "royalblue", "firebrick", "darkgreen", "steelblue"),
+        xlab="",
+        ylab="layer contributions",
+        names.arg=paste0("K=",1:6))
+dev.off()
+```
 
 
 
