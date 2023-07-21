@@ -15,9 +15,9 @@ library(vcfR)
 library(poppr)
 library(radiator)
 
-snp_vcf2 = read.vcfR("D:/fastq R1/EP4/M1n2_FINAL/depth_miss39prcnt_noCamp4.vcf")
+snp_vcf2 = read.vcfR("Qfly.vcf")
 snp_vcf2
-pop.data2 = read.table("D:/fastq R1/EP4/M1n2_FINAL/Onpopmap_noCamp4.txt", header = F)
+pop.data2 = read.table("Qfly_popmap.txt", header = F)
 gl.snp2 <- vcfR2genlight(snp_vcf2)
 pop(gl.snp2) <- rep(pop.data2$V2)
 
