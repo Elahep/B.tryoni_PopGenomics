@@ -318,7 +318,8 @@ barplot(layer.contributions,
 dev.off()
 ```
 
-
+#### References
+EEMS and conStruct manuals and GitHub pages.
 
 
 
