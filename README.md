@@ -11,7 +11,7 @@ Parvizi, E., Vaughan, A.L., Dhami, M.K. McGaughran, A. Genomic signals of local 
 
 ***************
 
-## Table of content
+## Table of contents
 ### 1-variant_calling:   
 Contains scripts for running BWA MEM, BCFtools and PLINK
 
