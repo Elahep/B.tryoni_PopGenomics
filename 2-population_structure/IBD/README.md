@@ -109,7 +109,7 @@ module load Boost
 
 To identify whether genetic divergence is represented as discrete clusters or continuous clines, we used the R package conStruct v. 1.0.5. We need two input files for running conStruct: a matrix of allele frequency for each individual and a matrix of pairwise geographic distances between all samples.
 
-A matrix of allele frequency was created using structure2conStruct function of the R package conStruct:
+A matrix of allele frequency was created using structure2conStruct function of the R package conStruct (note that the header line, as well as the first line containing the loci IDs, should be removed from the structure file):
 
 ```
 library(conStruct)
