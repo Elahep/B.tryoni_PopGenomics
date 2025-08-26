@@ -95,6 +95,15 @@ dim(gen)
 sum(is.na(gen))  # we can see there are missing data here. We will impute them after calculating population allele frequencies
 Genotypes <- as.data.frame(gen)
 popmap <- read.table("./Qff_popmap_bysite.txt")
+
+Genotypes <- Genotypes[match(popmap$V1, row.names(Genotypes), nomatch = 0),] ##doing this to make sure all the individual in the popmap file are present in our Genotype file.
+write.table(Genotypes,"./vegan RDA/Genotypes.txt", sep = "\t") ##the aggregate
+#function below doesn't like the : in my loci names(in columns). so I'll 
+#save the genotype table and in notepad replace : with _.
+
+Genotypes2 <- read.delim("./vegan RDA/Genotypes.txt") #read the table with : replaced with _
+
+
 AllFreq <- aggregate(Genotypes2, by = list(popmap$V2), function(x) mean(x, na.rm = T)/2)  # Estimating population allele frequencies
 row.names(AllFreq) <- as.character(AllFreq$Group.1)
 ## imputing missing genotypes with the median of the locus allele frequencies across all populations
