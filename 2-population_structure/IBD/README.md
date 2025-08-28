@@ -121,19 +121,7 @@ conStruct.data <- structure2conStruct(infile = "./Qff.str",
                                       outfile = "./myConStructData")
 is.matrix(conStruct.data)
 
-pop.data.matrix <- matrix(NA,nrow=28,ncol=ncol(conStruct.data))
-pop.index = c(1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,12,12,12,12,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,14,14,14,14,14,14,14,14,15,15,15,15,15,15,15,15,16,16,16,16,16,16,16,16,17,17,17,17,17,17,17,17,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,21,21,21,21,21,21,21,21,21,22,22,22,22,22,22,22,22,22,22,22,22,22,23,23,23,23,23,23,23,23,24,24,24,24,24,24,24,24,24,24,25,25,25,25,25,25,25,25,25,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,27,27,27,27,27,27,27,27,27,27,28,28,28,28,28,28,28,28)
-for(i in 1:nrow(pop.data.matrix)){
-  pop.data.matrix[i,] <- colMeans(
-    conStruct.data[
-      which(pop.index==i),,
-      drop=FALSE
-    ],na.rm=TRUE
-  )
-}
-
-is.matrix(pop.data.matrix)
-write.table(pop.data.matrix, "construct", sep = "\t")
+write.table(conStruct.data, "construct", sep = "\t")
 ```
 
 A matrix of pairwise geographic distances was created by calculating pairwise great-circle distance between sampling coordinates:
