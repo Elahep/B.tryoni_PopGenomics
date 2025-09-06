@@ -112,7 +112,7 @@ To identify whether genetic divergence is represented as discrete clusters or co
 A matrix of allele frequency was created using structure2conStruct function of the R package conStruct (note that the header line, as well as the first line containing the loci IDs, should be removed from the structure file):
 
 ```
-library(conStruct)
+library(conStruct) 
 conStruct.data <- structure2conStruct(infile = "./Qff.str",
                                       onerowperind = FALSE,
                                       start.loci = 3,
@@ -127,6 +127,7 @@ write.table(conStruct.data, "construct", sep = "\t")
 A matrix of pairwise geographic distances was created by calculating pairwise great-circle distance between sampling coordinates:
 
 ```
+library(fields)
 # Reading matrix of coordinates for each individual (i.e., 301 rows of lat. and long. format)
 coords <- as.matrix(read.table("Qff_coordinates_latlon.txt", header = FALSE)) 
 
